@@ -22,15 +22,7 @@ local function teleportToParts(player)
                     -- Vérifier si la partie a un ClickDetector et simuler un clic
                     local clickDetector = part:FindFirstChildOfClass("ClickDetector")
                     if clickDetector then
-                        clickDetector.MouseClick:Connect(function()
-                            -- Trouver l'instance "neon" correspondante dans workspace.RobotLab
-                            local neonPart = game.Workspace.RobotLab:FindFirstChild("neon" .. i)
-                            if neonPart then
-                                character:SetPrimaryPartCFrame(neonPart.CFrame)
-                            else
-                                warn("L'instance neon" .. i .. " n'a pas été trouvée.")
-                            end
-                        end)
+                        clickDetector:Fire() -- Simuler un clic sur la partie
                     else
                         warn("L'instance " .. partName .. " n'a pas de ClickDetector.")
                     end
@@ -43,6 +35,15 @@ local function teleportToParts(player)
         end
     else
         warn("Le personnage du joueur n'a pas été trouvé.")
+    end
+    
+    -- Téléporter le joueur à workspace.RobotLab.neon après la boucle
+    local neon = game.Workspace.RobotLab:FindFirstChild("neon")
+    if neon then
+        wait(1) -- Attendre 1 seconde avant de se téléporter (modifiable selon vos besoins)
+        character:SetPrimaryPartCFrame(neon.CFrame)
+    else
+        warn("L'instance workspace.RobotLab.neon n'a pas été trouvée.")
     end
 end
 
